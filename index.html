@@ -40,7 +40,7 @@
     var marker1 = L.marker([51.933292258, 7.582512743], {time: "2013-01-22 08:42:26+01"});
     var marker2 = L.marker([51.9, 7.6], {time: "2013-01-22 10:00:26+01"});
     var marker3 = L.marker([51.7, 7.7], {time: "2013-01-22 10:03:29+01"});
-    
+
     var pointA = new L.LatLng(51.8, -0.09);
     var pointB = new L.LatLng(51.9, -0.2);
     var pointList = [pointA, pointB];
@@ -52,8 +52,8 @@
       opacity: 1,
       smoothFactor: 1
     });
-    
-    
+
+
     layerGroup = L.layerGroup([marker1, marker2, marker3, polyline]);
     var sliderControl = L.control.sliderControl({layer:layerGroup, follow: true});
     myMap.addControl(sliderControl);
@@ -73,7 +73,20 @@
         sliderControl = L.control.sliderControl({
             position: "topright",
             layer: testlayer,
-            range: true
+            range: false,
+            noTime: true,
+            slideAttribute: "foo",
+            comparatorFunc: function(a,b){
+                if (a.feature.properties["foo"] > b.feature.properties["foo"]){
+                    return 1
+                }
+                else if (a.feature.properties["foo"] < b.feature.properties["foo"]){
+                    return -1
+                }
+                else {
+                    return 0
+                }
+            }
         });
 
         //Make sure to add the slider to the map ;-)
